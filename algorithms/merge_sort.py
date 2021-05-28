@@ -21,11 +21,11 @@ def merge(array_a: list, array_b: list) -> list:
             del array_a[0]
             continue
 
-    while array_a != [] and array_b == []:
+    if array_a != []:
         merged_array.extend(array_a)
         array_a = []
 
-    while array_b != [] and array_a == []:
+    if array_b != []:
         merged_array.extend(array_b)
         array_b = []
 
