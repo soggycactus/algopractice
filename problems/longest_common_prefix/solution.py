@@ -29,7 +29,7 @@ def longest_common_prefix_array(strs: list) -> list:
     Returns the longest common prefix amongst all values in an array
     """
     if len(strs) == 1:
-        return strs
+        return strs[0]
 
     combos = list(combinations(strs, 2))
     results = []
@@ -39,9 +39,9 @@ def longest_common_prefix_array(strs: list) -> list:
         results.append(prefix)
 
     if len(set(results)) != 1:
-        results = longest_common_prefix_array(list(set(results)))
+        return longest_common_prefix_array(list(set(results)))
 
-    return results
+    return results[0]
 
 
 def main():
@@ -50,7 +50,7 @@ def main():
     """
     strs = ["flower", "flow", "flight"]
     # strs = ["dog", "racecar", "car"]
-    print(longest_common_prefix_array(strs)[0])
+    print(longest_common_prefix_array(strs))
 
 
 if __name__ == "__main__":
