@@ -51,7 +51,7 @@ class MinHeap:
 
     def min_heapify(self, index: int):
         """
-        recursively builds a max heap from an unordered array
+        recursively builds a min heap from an unordered array
         """
         left = self.__get_left_child_index(index)
         right = self.__get_right_child_index(index)
@@ -71,7 +71,7 @@ class MinHeap:
 
     def build_min_heap(self):
         """
-        build_min_heap calls max_heapify to construct a max heap
+        build_min_heap calls min_heapify to construct a min heap
 
         we call min_heapify from the range (len(n) // 2) - 1
         because these indices are guaranteed to be nodes with children
