@@ -120,6 +120,45 @@ def find_predecessor(node: BinarySearchTreeNode):
     return parent
 
 
+def transplant(
+    node: BinarySearchTreeNode, u: BinarySearchTreeNode, v: BinarySearchTreeNode
+):
+    """
+    Replaces the subtree rooted at node `u` with the subtree rooted at node`v`
+    """
+    if u.parent is None:
+        node.data = u.data
+        node.right = u.right
+        node.left = u.left
+        node.parent = u.parent
+    elif u == u.parent.left:
+        u.parent.left = v
+    else:
+        u.parent.right = v
+
+    if v is not None:
+        v.parent = u.parent
+
+
+def tree_delete(node: BinarySearchTreeNode, z: BinarySearchTreeNode):
+    """
+    Deletes node `z` from the BST
+    """
+    if z.left is None:
+        transplant(node, z, z.right)
+    elif z.right is None:
+        transplant(node, z, z.left)
+    else:
+        y = tree_minimum(z.right)
+        if y.parent != z:
+            transplant(node, y, y.right)
+            y.right = z.right
+            y.right.parent = y
+        transplant(node, z, y)
+        y.left = z.left
+        y.left.parent = y
+
+
 def main():
     """
     Example Usage
@@ -153,6 +192,10 @@ def main():
     print("--- Predecessor ---")
     predecessor = find_predecessor(find)
     print(predecessor.data)
+
+    print("--- Delete 13 from BST ---")
+    tree_delete(bst, find)
+    bst.inorder_tree_walk()
 
 
 if __name__ == "__main__":
