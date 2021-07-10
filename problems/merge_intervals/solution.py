@@ -1,6 +1,14 @@
 """ Merge Intervals """
 
 
+def merge_arrays(smaller: list, bigger: list) -> list:
+    """
+    Merges two arrays if they overlap
+    """
+    if smaller[0] <= bigger[0] <= smaller[-1]:
+        return [smaller[0], max(bigger[1], smaller[1])]
+
+
 def merge(intervals: list) -> list:
     """
     Merges any overlapping intervals in the list and returns the result
@@ -9,29 +17,19 @@ def merge(intervals: list) -> list:
         return intervals
 
     intervals.sort(key=lambda x: x[0])
-
     result = []
+    current = intervals[0]
+    i = 1
+    while i < len(intervals):
+        merged = merge_arrays(current, intervals[i])
+        if merged is None:
+            result.append(current)
+            current = intervals[i]
+        else:
+            current = merged
 
-    while intervals != []:
-        if len(intervals) == 1:
-            result.extend(intervals)
-            break
-
-        for i in range(1, len(intervals)):
-            if intervals[0][0] <= intervals[i][0] <= intervals[0][1]:
-                intervals.append(
-                    [intervals[0][0], max(intervals[i][1], intervals[0][1])]
-                )
-                del intervals[0 : i + 1]
-                intervals.sort(key=lambda x: x[0])
-                break
-            elif i == len(intervals) - 1:
-                result.append(intervals[0])
-                del intervals[0]
-                break
-            else:
-                continue
-
+        i += 1
+    result.append(current)
     return result
 
 
