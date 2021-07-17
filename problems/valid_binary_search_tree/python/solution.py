@@ -12,70 +12,33 @@ class TreeNode:
         self.right = right
 
 
-def get_bst_children(root: TreeNode) -> list:
+def inorder_traversal(root: TreeNode) -> list:
     """
-    Returns all of the children of a BST
+    Performs inorder traversal of a binary tree
     """
-    children = []
-    if root.left is None and root.right is None:
-        return children
-    elif root.left is None and root.right is not None:
-        children.append(root.right.val)
-        children.extend(get_bst_children(root.right))
-    elif root.right is None and root.left is not None:
-        children.append(root.left.val)
-        children.extend(get_bst_children(root.left))
-    else:
-        children.append(root.left.val)
-        children.append(root.right.val)
-        children.extend(get_bst_children(root.left))
-        children.extend(get_bst_children(root.right))
+    if root is None:
+        return []
 
-    return children
+    items = []
+
+    items.extend(inorder_traversal(root.left))
+    items.append(root.val)
+    items.extend(inorder_traversal(root.right))
+
+    return items
 
 
 def is_valid_bst(root: TreeNode) -> bool:
     """
     Determines if a BST is valid
     """
-    if root.left is None and root.right is None:
-        return True
-    elif root.left is None and root.right is not None:
-        if root.val < root.right.val and is_valid_bst(root.right):
-            right_children = get_bst_children(root.right)
-            if right_children != []:
-                return root.val < min(right_children)
-            return True
-        return False
-    elif root.right is None and root.left is not None:
-        if root.left.val < root.val and is_valid_bst(root.left):
-            left_children = get_bst_children(root.left)
-            if left_children != []:
-                return root.val > max(left_children)
-            return True
-        return False
-    else:
-        if (
-            root.left.val < root.val < root.right.val
-            and is_valid_bst(root.left)
-            and is_valid_bst(root.right)
-        ):
-            right_children = get_bst_children(root.right)
-            if right_children != []:
-                if not root.val < min(right_children):
-                    return False
+    inorder = inorder_traversal(root)
 
-                left_children = get_bst_children(root.left)
-                if left_children != []:
-                    return root.val > max(left_children)
+    for i in range(1, len(inorder)):
+        if inorder[i - 1] >= inorder[i]:
+            return False
 
-                return True
-            else:
-                left_children = get_bst_children(root.left)
-                if left_children != []:
-                    return root.val > max(left_children)
-                return True
-        return False
+    return True
 
 
 def main():
@@ -102,10 +65,12 @@ def main():
             ),
             False,
         ),
+        (TreeNode(2, TreeNode(2), TreeNode(2)), False),
+        (TreeNode(0, TreeNode(-1)), True),
     ]
 
     for bst, result in test_cases:
-        print(bst.val, get_bst_children(bst))
+        print(inorder_traversal(bst))
         print(is_valid_bst(bst) == result)
 
 
