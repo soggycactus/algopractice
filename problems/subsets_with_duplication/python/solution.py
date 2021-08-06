@@ -28,6 +28,7 @@ def subsets_with_dup(nums: List[int], memo: dict) -> List[List[int]]:
 
     result = list(result.values())
     result.append(nums)
+    hash_code = hash(str(sorted(nums)))
     memo[hash_code] = result
     return result
 
