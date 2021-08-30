@@ -50,11 +50,9 @@ def merge_two_lists(l1: ListNode, l2: ListNode) -> ListNode:
 
     if l1 is not None:
         current.next = l1
-        current = current.next
 
     if l2 is not None:
         current.next = l2
-        current = current.next
 
     return node
 
