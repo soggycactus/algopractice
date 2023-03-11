@@ -1,53 +1,79 @@
 """ Merge Sort """
+from typing import List
 
 
-def merge(array_a: list, array_b: list) -> list:
-    """Merges two arrays into a single, sorted array"""
-    merged_array = []
+def merge(x: List[int], y: List[int]) -> List[int]:
+    result = []
 
-    while array_a != [] and array_b != []:
-        if array_a[0] < array_b[0]:
-            merged_array.append(array_a[0])
-            del array_a[0]
-            continue
+    i = 0
+    j = 0
+    while i < len(x) and j < len(y):
+        if x[i] < y[j]:
+            result.append(x[i])
+            i += 1
+        elif x[i] > y[j]:
+            result.append(y[j])
+            j += 1
+        else:
+            result.append(x[i])
+            i += 1
 
-        if array_b[0] < array_a[0]:
-            merged_array.append(array_b[0])
-            del array_b[0]
-            continue
+    if i < len(x):
+        result.extend(x[i:])
+    elif j < len(y):
+        result.extend(y[j:])
 
-        if array_a[0] == array_b[0]:
-            merged_array.append(array_a[0])
-            del array_a[0]
-            continue
-
-    if array_a != []:
-        merged_array.extend(array_a)
-        array_a = []
-
-    if array_b != []:
-        merged_array.extend(array_b)
-        array_b = []
-
-    return merged_array
+    return result
 
 
-def merge_sort(array: list) -> list:
-    """Implements the Merge Sort algorithm"""
-    if len(array) == 1:
-        return array
+def merge_sort(x: List[int]):
+    mid = (len(x) - 1) // 2
 
-    array_a = merge_sort(array[len(array) // 2 :])
-    array_b = merge_sort(array[: len(array) // 2])
+    while len(x) > 2:
+        return merge(merge_sort(x[0 : mid + 1]), merge_sort(x[mid + 1 :]))
 
-    return merge(array_a, array_b)
+    if len(x) == 2:
+        if x[0] < x[1]:
+            return x
+        else:
+            x.reverse()
+            return x
+
+    return x
 
 
 def main():
-    """Entrypoint of the program"""
-    array = [1, 9, 3, 6, 2, 4, 7, 3, 21, 5, 4, 3, 7, 3, 5]
-    print(array)
-    print(merge_sort(array))
+    x = [
+        1,
+        7,
+        3,
+        5,
+        2,
+        9,
+        1,
+        2,
+        3,
+        6,
+        1,
+        3,
+        2,
+        0,
+        8,
+        9,
+        4,
+        5,
+        8,
+        6,
+        5,
+        7,
+        2,
+        1,
+        3,
+        5,
+        7,
+        4,
+    ]
+    print(merge_sort(x))
 
 
 if __name__ == "__main__":
