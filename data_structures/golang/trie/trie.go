@@ -1,20 +1,18 @@
 package trie
 
-import "strings"
-
-type Trie[V any] struct {
-	Nodes      map[string]*Trie[V]
+type Trie[K string | int, V any] struct {
+	Nodes      map[K]*Trie[K, V]
 	IsComplete bool
 	Value      V
 }
 
-func NewTrie[V any]() *Trie[V] {
-	return &Trie[V]{
-		Nodes: map[string]*Trie[V]{},
+func NewTrie[K string | int, V any]() *Trie[K, V] {
+	return &Trie[K, V]{
+		Nodes: map[K]*Trie[K, V]{},
 	}
 }
 
-func (t *Trie[V]) Add(nodes []string, value V) {
+func (t *Trie[K, V]) Add(nodes []K, value V) {
 	if len(nodes) == 0 {
 		t.Value = value
 		t.IsComplete = true
@@ -23,14 +21,14 @@ func (t *Trie[V]) Add(nodes []string, value V) {
 
 	lookup, ok := t.Nodes[nodes[0]]
 	if !ok {
-		lookup = NewTrie[V]()
+		lookup = NewTrie[K, V]()
 		t.Nodes[nodes[0]] = lookup
 	}
 
 	lookup.Add(nodes[1:], value)
 }
 
-func (t *Trie[V]) Get(nodes []string) V {
+func (t *Trie[K, V]) Get(nodes []K) V {
 	if len(nodes) == 0 {
 		if t.IsComplete {
 			return t.Value
@@ -46,8 +44,8 @@ func (t *Trie[V]) Get(nodes []string) V {
 	return lookup.Get(nodes[1:])
 }
 
-func (t *Trie[V]) LongestCommonPrefix() string {
-	result := []string{}
+func (t *Trie[K, V]) LongestCommonPrefix() []K {
+	result := []K{}
 	cursor := t
 
 	for {
@@ -65,5 +63,5 @@ func (t *Trie[V]) LongestCommonPrefix() string {
 		}
 	}
 
-	return strings.Join(result, "")
+	return result
 }

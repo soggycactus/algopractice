@@ -11,7 +11,7 @@ func wordToArray(word string) []string {
 }
 
 func TestTrie(t *testing.T) {
-	tr := trie.NewTrie[string]()
+	tr := trie.NewTrie[string, string]()
 	tr.Add(wordToArray("cat"), "hooray!")
 	tr.Add(wordToArray("catt"), "hoorah!")
 	tr.Add(wordToArray("cattermole"), "yes!")
@@ -46,7 +46,7 @@ func TestTrie(t *testing.T) {
 		}
 	}
 
-	if result := tr.LongestCommonPrefix(); result != "cat" {
+	if result := tr.LongestCommonPrefix(); strings.Join(result, "") != "cat" {
 		t.Fail()
 		t.Logf("LongestCommonPrefix failed, got: %v, expected: %v", result, "catt")
 	}
