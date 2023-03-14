@@ -1,9 +1,9 @@
 package trie_test
 
 import (
+	"algopractice/data_structures/golang/trie"
 	"strings"
 	"testing"
-	"trie"
 )
 
 func wordToArray(word string) []string {

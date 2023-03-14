@@ -1,7 +1,7 @@
 package dijkstra_test
 
 import (
-	"algorithms/dijkstra"
+	"algopractice/algorithms/golang/dijkstra"
 	"reflect"
 	"testing"
 )
