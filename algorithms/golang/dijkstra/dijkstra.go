@@ -77,6 +77,7 @@ func (g *Graph[V]) ShortestPath(srcKey, destKey string) []string {
 	results := make(map[string]result)
 	unvisited := map[string]struct{}{}
 
+	// set all vertices to infinite distance, set the start to 0
 	for key := range g.Vertices {
 		if key == srcKey {
 			results[key] = result{
