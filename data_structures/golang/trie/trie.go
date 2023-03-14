@@ -30,17 +30,19 @@ func (t *Trie[V]) Add(nodes []string, value V) {
 	lookup.Add(nodes[1:], value)
 }
 
-func (t *Trie[V]) Get(nodes []string) interface{} {
+func (t *Trie[V]) Get(nodes []string) V {
+	var null V
+
 	if len(nodes) == 0 {
 		if t.IsComplete {
 			return t.Value
 		}
-		return nil
+		return null
 	}
 
 	lookup, ok := t.Nodes[nodes[0]]
 	if !ok {
-		return ""
+		return null
 	}
 
 	return lookup.Get(nodes[1:])
