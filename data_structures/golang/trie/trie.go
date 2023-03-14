@@ -2,19 +2,19 @@ package trie
 
 import "strings"
 
-type Trie struct {
-	Nodes      map[string]*Trie
+type Trie[V any] struct {
+	Nodes      map[string]*Trie[V]
 	IsComplete bool
-	Value      interface{}
+	Value      V
 }
 
-func NewTrie() *Trie {
-	return &Trie{
-		Nodes: map[string]*Trie{},
+func NewTrie[V any]() *Trie[V] {
+	return &Trie[V]{
+		Nodes: map[string]*Trie[V]{},
 	}
 }
 
-func (t *Trie) Add(nodes []string, value interface{}) {
+func (t *Trie[V]) Add(nodes []string, value V) {
 	if len(nodes) == 0 {
 		t.Value = value
 		t.IsComplete = true
@@ -23,14 +23,14 @@ func (t *Trie) Add(nodes []string, value interface{}) {
 
 	lookup, ok := t.Nodes[nodes[0]]
 	if !ok {
-		lookup = NewTrie()
+		lookup = NewTrie[V]()
 		t.Nodes[nodes[0]] = lookup
 	}
 
 	lookup.Add(nodes[1:], value)
 }
 
-func (t *Trie) Get(nodes []string) interface{} {
+func (t *Trie[V]) Get(nodes []string) interface{} {
 	if len(nodes) == 0 {
 		if t.IsComplete {
 			return t.Value
@@ -46,7 +46,7 @@ func (t *Trie) Get(nodes []string) interface{} {
 	return lookup.Get(nodes[1:])
 }
 
-func (t *Trie) LongestCommonPrefix() string {
+func (t *Trie[V]) LongestCommonPrefix() string {
 	result := []string{}
 	cursor := t
 
