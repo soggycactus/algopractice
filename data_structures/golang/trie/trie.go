@@ -31,18 +31,16 @@ func (t *Trie[V]) Add(nodes []string, value V) {
 }
 
 func (t *Trie[V]) Get(nodes []string) V {
-	var null V
-
 	if len(nodes) == 0 {
 		if t.IsComplete {
 			return t.Value
 		}
-		return null
+		return *new(V)
 	}
 
 	lookup, ok := t.Nodes[nodes[0]]
 	if !ok {
-		return null
+		return *new(V)
 	}
 
 	return lookup.Get(nodes[1:])
